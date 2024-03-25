@@ -1,0 +1,84 @@
+# Maintainer: Panwah Team
+# Contributor: Isaac David Orozco Delgado <opensrcrdp@gmail.com>
+# Repo: Main
+pkgname="Base-Wah"
+pkgver=Apha_1.2
+pkgrel=1
+pkgdesc="Panwah base package"
+arch=("aarch64")
+url="https://redwared.github.io/panwah/"
+srcurl="https://raw.githubusercontent.com/RedWared/panwah/src/pacman/Main/$pkgname"
+license=('GPLv3')
+groups=("Panwah")
+depends=(
+	# Essential Panwah packages.
+	"gcc-libs" "glibc" "systemd"
+	# Disto dependencies
+	"pacman" "archlinux-keyring" "zsh" "systemd-sysvcompat" "licenses"
+	# POSIX tools
+	"coreutils" "file" "findutils" "gawk" "grep" "procps-ng" "sed" "tar"
+	# Standard linux toolset
+	"gettext" "pciutils" "psmisc" "shadow" "util-linux" "bzip2" "gzip" "xz"
+	# Network things
+	"iputils" "iproute2" "iana-etc" "networkmanager"
+)
+optdepends=(
+	"Linux-Wah: Default Panwah kernel"
+)
+provides=("BaseOS")
+backup=(
+	"etc/crypttab"
+	"etc/fstab"
+	"etc/host.conf"
+	"etc/hosts"
+	"etc/ld.so.conf"
+	"etc/nsswitch.conf"
+	"etc/profile"
+	"etc/resolv.conf"
+	"etc/securetty"
+	"etc/shells"
+)
+source=(
+	"$srcurl/crypttab"
+	"$srcurl/env-generator"
+	"$srcurl/fstab"
+	"$srcurl/host.conf"
+	"$srcurl/hosts"
+	"$srcurl/ld.so.conf"
+	"$srcurl/locale.sh"
+	"$srcurl/nsswitch.conf"
+	"$srcurl/os-release"
+	"$srcurl/profile"
+	"$srcurl/resolv.conf"
+	"$srcurl/securetty"
+	"$srcurl/shells"
+	"$srcurl/sysctl"
+	"$srcurl/sysusers"
+	"$srcurl/tmpfiles"
+	"$url/img/wah-logo.png"
+	"$url/img/wah-logo.svg"
+	"$url/img/wah-logo-text.svg"
+	"$url/img/wah-logo-text-dark.svg"
+)
+sha256sums=(
+	"e03bede3d258d680548696623d5979c6edf03272e801a813c81ba5a5c64f4f82"	# crypttab
+	"ed0cb4f1db4021f8c3b5ce78fdf91d2c0624708f58f36c9cf867f4d93c3bc6da"	# env-generator
+	"e54626e74ed8fee4173b62a545ab1c3a3a069e4217a0ee8fc398d9933e9c1696"	# fstab
+	"4d7b647169063dfedbff5e1e22cee77bd1a4183dbcfd5e802e68939da4bbf733"	# host.conf
+	"e48ace7c4215873921a745b5cd20203485f3b26624645803734372d6661f3792"	# hosts
+	"dad04a370e488aa85fb0a813a5c83cf6fd981ce01883fc59685447b092de84b5"	# ld.so.conf
+	"8ca2d8eef6fb5143c9ef7e9174ccfef59ac7ad2deee243574cd10c763156cc10"	# locale.sh
+	"c8ee7a9faf798caab178ec51afae4146f1efd8a716b7acedf28345b6c75f9697"	# nsswitch.conf
+	"a3fa53114f9bfc4a77b567c92a6b98ee7061d230fa3be973cb273cae97439e22"	# os-release
+	"8f08231922fe185d3132f9aedded5cd688fb7c482a6f6f272402ded82fa4849a"	# profile
+	"5557d8e601b17a80d1ea7de78a9869be69637cb6a02fbfe334e22fdf64e61d4c"	# resolv.conf
+	"d88be2b45b43605ff31dd83d6a138069b6c2e92bc8989b7b9ab9eba8da5f8c7b"	# securetty
+	"ec289c03aa0d150e90e8287f001c8e6552ab9dd54f450bdb5c2d2254e477965b"	# shells
+	"89e43a0b7028f52d5c8e7fb961d962c4b4f4e9595880a6157274ddb2c7c0b6b4"	# sysctl
+	"d4b24ad2c2c792fa1b492b30ff3129e9fe42f2b893dab4cc1316fb03c4176c52"	# sysusers
+	"5d8e61479f0093852365090e84d8d95b1e7fccfab068274ee25863bde6ff3e07"	# tmpfiles
+	"8e167fdd1deb7e14e869759b03703d0c57f090cf060336ad5588cf6b9e400ff9"	# wah-logo.png
+	"9c17a4922e7a1afb2f0c3e407d02c8e21184b1a0af772ad363d0709bf55a7d4b"	# wah-logo.svg
+	"a3efeefbccfe8a5cae1ae51b4e7abb6820d65fc4ab4f33712e7dc38d6a62dadc"	# wah-logo-text.svg
+	"42b1e3964759d79463ce9cf96ec2eb0cdc4939acdadc1c40b3f65fd69de0aad5"	# wah-logo-text-dark.svg
+)
