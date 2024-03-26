@@ -5,8 +5,8 @@ pkgname="Base-Wah"
 pkgver=Apha_1.2
 pkgrel=1
 pkgdesc="Panwah base package"
-arch=("aarch64")
-url="https://redwared.github.io/panwah/"
+arch=("aarch64" "x86_64")
+url="https://redwared.github.io/panwah"
 srcurl="https://raw.githubusercontent.com/RedWared/panwah/src/pacman/Main/$pkgname"
 license=('GPLv3')
 groups=("Panwah")
@@ -37,6 +37,13 @@ backup=(
 	"etc/resolv.conf"
 	"etc/securetty"
 	"etc/shells"
+	"etc/subuid"
+	"etc/subgid"
+	"etc/group"
+	"etc/issue"
+	"etc/passwd"
+	"etc/shadow"
+	"etc/gshadow"
 )
 source=(
 	"$srcurl/crypttab"
@@ -82,3 +89,75 @@ sha256sums=(
 	"a3efeefbccfe8a5cae1ae51b4e7abb6820d65fc4ab4f33712e7dc38d6a62dadc"	# wah-logo-text.svg
 	"42b1e3964759d79463ce9cf96ec2eb0cdc4939acdadc1c40b3f65fd69de0aad5"	# wah-logo-text-dark.svg
 )
+package(){
+	cd "$pkgdir"
+
+	touch $srcdir/{subuid,subgid}
+	echo "root:x:0:root" > $srcdir/group
+	echo "root:x:0:0::/root:/bin/zsh" > $srcdir/passwd
+	echo "Panwah \r (\l)" > $srcdir/issue
+
+	echo "root:::root" > $srcdir/gshadow
+	echo "root:*:14871::::::" > $srcdir/shadow
+
+	# Creating root filesystem
+	install -d -m755 boot dev etc home mnt usr var opt run
+	install -d -m555 proc sys
+	install -d -m0750 root
+	install -d -m1777 tmp
+
+	# Configuring /etc and /usr/share/factory/etc
+	install -d etc/{ld.so.conf.d,skel,profile.d} usr/share/factory/etc
+	install -m644 $srcdir/{fstab,host.conf,hosts,ld.so.conf,nsswitch.conf,resolv.conf,securetty,shells,profile,subuid,subgid,group,passwd,issue} etc/
+	install -m644 $srcdir/{fstab,host.conf,hosts,ld.so.conf,nsswitch.conf,resolv.conf,securetty,shells,profile,subuid,subgid,group,passwd,issue} usr/share/factory/etc/
+	install -m600 $srcdir/{gshadow,shadow,crypttab} etc/
+	install -m600 $srcdir/{gshadow,shadow,crypttab} usr/share/factory/etc/
+	install -m644 $srcdir/locale.sh etc/profile.d/locale.sh
+	install -Dm644 $srcdir/os-release usr/lib/os-release
+
+	ln -s ../proc/self/mounts etc/mtab
+	echo "Panwah" > etc/wah-release
+
+	# Configuring /var
+	install -d -m755 var/{cache,local,opt,log/old,lib/misc,empty}
+	install -d -m1777 var/tmp
+
+	# Allow setgid games (gid 50) to write scores
+	install -d -m755 -g 50 var/games
+	ln -s ../run var/run
+	ln -s ../run/lock var/lock
+
+	# Creating /usr hierarchy
+	install -d -m755 usr/{bin,include,lib,share/{misc,pixmaps,man/man{1..8}},src}
+
+	# Adding lib symlinks
+	ln -s usr/lib lib
+	[[ $CARCH = 'x86_64' ]] && {
+		ln -s usr/lib lib64
+		ln -s lib usr/lib64
+	}
+
+	# Adding bin symlinks
+	ln -s usr/bin bin
+	ln -s usr/bin sbin
+	ln -s bin usr/sbin
+
+	# Creating /usr/local hierarchy
+	install -d -m755 usr/local/{bin,etc,games,include,lib,man,sbin,share,src}
+	ln -s ../man usr/local/share/man
+
+	# Configuring systemd-sysctl
+	install -D -m644 $srcdir/sysctl usr/lib/sysctl.d/10-wah.conf
+
+	# Configuring systemd-sysusers
+	install -D -m644 $srcdir/sysusers usr/lib/sysusers.d/wah.conf
+
+	# Configuring systemd-tmpfiles
+	install -D -m644 $srcdir/tmpfiles usr/lib/tmpfiles.d/wah.conf
+
+	# Configuring systemd.environment-generator
+	install -D -m755 $srcdir/env-generator usr/lib/systemd/system-environment-generators/10-wah
+
+	# Adding logos
+	install -D -m644 $srcdir/wah-logo{.png,.svg,-text.svg,-text-dark.svg} usr/share/pixmaps
+}
