@@ -14,6 +14,6 @@ source=("$srcurl/panwah-mirrorlist")
 sha256sums=("a74c407b0aec44f71c13549a0e27baeed0f5ded90da850a39634b2f437dcabcd")	# panwah-mirrorlist
 
 package() {
-	mkdir -p $pkgdir/etc/pacman.d
+	install -d -m755 $pkgdir/etc/pacman.d
 	install -m644 $srcdir/panwah-mirrorlist $pkgdir/etc/pacman.d/
 }
