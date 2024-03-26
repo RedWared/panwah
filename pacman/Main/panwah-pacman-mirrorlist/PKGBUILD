@@ -1,4 +1,5 @@
 # Maintainer: Isaac David Orozco Delgado <opensrcrdp@gmail.com>
+# Repo: Main
 pkgname=panwah-pacman-mirrorlist
 pkgver=1
 pkgrel=1
