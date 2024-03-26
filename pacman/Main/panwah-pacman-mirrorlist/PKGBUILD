@@ -2,7 +2,7 @@
 # Repo: Main
 pkgname=panwah-pacman-mirrorlist
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Panwah mirror list for use by pacman"
 arch=("any")
 url="https://redwared.github.io/panwah/mirrors"
