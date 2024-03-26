@@ -1,0 +1,18 @@
+# Maintainer: Isaac David Orozco Delgado <opensrcrdp@gmail.com>
+pkgname=panwah-pacman-mirrorlist
+pkgver=1
+pkgrel=1
+pkgdesc="Panwah mirror list for use by pacman"
+arch=("any")
+url="https://redwared.github.io/panwah/mirrors"
+srcurl="https://raw.githubusercontent.com/RedWared/panwah/src/pacman/Main/$pkgname"
+license=("GPLv3")
+provides=("pacman-mirrorlist")
+backup=("etc/pacman.d/panwah-mirrorlist")
+source=("$srcurl/panwah-mirrorlist")
+sha256sums=("a74c407b0aec44f71c13549a0e27baeed0f5ded90da850a39634b2f437dcabcd")	# panwah-mirrorlist
+
+package() {
+	mkdir -p $pkgdir/etc/pacman.d
+	install -m644 $srcdir/panwah-mirrorlist $pkgdir/etc/pacman.d/
+}

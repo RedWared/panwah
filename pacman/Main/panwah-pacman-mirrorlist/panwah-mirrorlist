@@ -1,0 +1,9 @@
+#############################
+# Panwah repository mirrorlist #
+#
+
+### GitHub
+Server = https://redwared.github.io/panwah/repo/$arch/pacman/$repo
+
+### SourceFoge
+Server = https://panwah.sourceforge.io/repo/$arch/pacman/$repo
